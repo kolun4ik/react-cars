@@ -1,12 +1,14 @@
 import React from 'react';
 import Car from './components/Car';
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
+import Counter from './Counter/Counter';
 
 class App extends React.Component {
     state = {
         cars: [
             { name: 'Ford', year: '2018'},
-            { name: 'Audi', year: '2010'},
-            { name: 'Mazda', year: '2015'},
+            // { name: 'Audi', year: '2010'},
+            // { name: 'Mazda', year: '2015'},
         ],
         pageTitle: 'React component',
         showCars: false,
@@ -41,7 +43,17 @@ class App extends React.Component {
         });
     };
 
-  render() {
+    // Ф-ции жизненного цикла
+    componentWillMount() {
+        console.log('App componentWillMount ');
+    }
+
+    componentDidMount() {
+        console.log('App componentDidMount');
+    }
+
+    render() {
+        console.log('App render');
       const divStyle = {
           textAlign: 'center'
       };
@@ -51,25 +63,28 @@ class App extends React.Component {
           cars =  this.state.cars.map((car, index) => {
                   return (
                       //каждый объект преобразуем в компонент
-                      <Car
-                          key={index}
-                          name={car.name}
-                          year={car.year}
-                          onChangeName={ event => this.onChangeName(event.target.value, index)}
-                          onDelete={this.deleteHandler.bind(this, index)}
-                      />
+                      <ErrorBoundary key={index}>
+                          <Car
+                              name={car.name}
+                              year={car.year}
+                              onChangeName={ event => this.onChangeName(event.target.value, index)}
+                              onDelete={this.deleteHandler.bind(this, index)}
+                          />
+                      </ErrorBoundary>
                   )
               })
       }
     return (
         <div style={divStyle}>
-            <h1>{this.state.pageTitle}</h1>
-
-
+            {/*<h1>{this.state.pageTitle}</h1>*/}
+            <h1>{this.props.title}</h1>
+            <Counter />
+            <hr />
             {/*bind -первый параметр тот контекст, с которым должна быть вызвана ф-ция,
             в нашем случае это this. bind будет возвращать новую ф-цию, но не вызывать ee.
             Далее, через запятую, любой набор параметров (первый вариант передачи параметров)*/}
             <button
+                style={{marginTop: '20px'}}
                 onClick={this.toggleCarHandler}>
                 Toggle Cars</button>
             {/*Выводим список всех машин, где car - каждый из объектов списка*/}
@@ -80,7 +95,6 @@ class App extends React.Component {
             }}>
                 { cars }
             </div>
-
         </div>
     )
   }
