@@ -73,7 +73,14 @@ class App extends React.Component {
                 onClick={this.toggleCarHandler}>
                 Toggle Cars</button>
             {/*Выводим список всех машин, где car - каждый из объектов списка*/}
-            { cars }
+            <div style={{
+                width: 400,
+                margin: 'auto',
+                paddingTop: '20px',
+            }}>
+                { cars }
+            </div>
+
         </div>
     )
   }
