@@ -9,48 +9,55 @@ class App extends React.Component {
             { name: 'Mazda', year: '2015'},
         ],
         pageTitle: 'React component',
+        showCars: false,
     }
 
-    changeTitleHandler = newTitle => {
+
+
+    changeTitleHandler = pageTitle => {
         this.setState({
-            pageTitle : newTitle
+            pageTitle, // параметры совпадают и React это поймет как надо
         });
     }
 
-    handleInput = (event) => {
+    toggleCarHandler = () => {
         this.setState({
-            pageTitle: event.target.value,
-        })
+            showCars: !this.state.showCars,
+        });
     }
 
   render() {
       const divStyle = {
           textAlign: 'center'
       }
+
+      let cars = null;
+      if(this.state.showCars ){
+          cars =  this.state.cars.map((car, index) => {
+                  return (
+                      //каждый объект преобразуем в компонент
+                      <Car
+                          key={index}
+                          name={car.name}
+                          year={car.year}
+                          onChangeTitle={() => this.changeTitleHandler(car.name)}
+                      />
+                  )
+              })
+      }
     return (
         <div style={divStyle}>
             <h1>{this.state.pageTitle}</h1>
 
-            <input  type="text" onChange={this.handleInput}/>
 
             {/*bind -первый параметр тот контекст, с которым должна быть вызвана ф-ция,
             в нашем случае это this. bind будет возвращать новую ф-цию, но не вызывать ee.
             Далее, через запятую, любой набор параметров (первый вариант передачи параметров)*/}
             <button
-                onClick={this.changeTitleHandler.bind(this, ' Chenged')}>
-                Change title</button>
+                onClick={this.toggleCarHandler}>
+                Toggle Cars</button>
             {/*Выводим список всех машин, где car - каждый из объектов списка*/}
-            { this.state.cars.map((car, index) => {
-                return (
-                    //каждый объект преобразуем в компонент
-                    <Car
-                        key={index}
-                        name={car.name}
-                        year={car.year}
-                        onChangeTitle={() => this.changeTitleHandler(car.name)}
-                    />
-                )
-            }) }
+            { cars }
         </div>
     )
   }
