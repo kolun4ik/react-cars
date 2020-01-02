@@ -10,26 +10,41 @@ class App extends React.Component {
         ],
         pageTitle: 'React component',
         showCars: false,
-    }
+    };
 
 
 
-    changeTitleHandler = pageTitle => {
+    onChangeName(name, index) {
+        const car = this.state.cars[index];
+        car.name = name;
+        //изменят в самом масиве нельзя, нужно сделать дубликат
+        // const cars = this.state.cars.concat()
+        const cars = [...this.state.cars]; /// ... спред оператор
+        cars[index] = car;
         this.setState({
-            pageTitle, // параметры совпадают и React это поймет как надо
-        });
-    }
+            cars // ключ совпадает со значением
+        })
+    };
 
     toggleCarHandler = () => {
         this.setState({
             showCars: !this.state.showCars,
         });
-    }
+    };
+
+    deleteHandler(index) {
+        console.log('delete')
+        const cars = this.state.cars.concat();
+        cars.splice(index, 1);
+        this.setState({
+            cars
+        });
+    };
 
   render() {
       const divStyle = {
           textAlign: 'center'
-      }
+      };
 
       let cars = null;
       if(this.state.showCars ){
@@ -40,7 +55,8 @@ class App extends React.Component {
                           key={index}
                           name={car.name}
                           year={car.year}
-                          onChangeTitle={() => this.changeTitleHandler(car.name)}
+                          onChangeName={ event => this.onChangeName(event.target.value, index)}
+                          onDelete={this.deleteHandler.bind(this, index)}
                       />
                   )
               })
