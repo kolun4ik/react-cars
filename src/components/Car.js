@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import classes from './Car.css';
 import withClass from '../hoc/withClass';
 
@@ -21,6 +22,7 @@ class Car extends React.Component {
 
 
         return (
+            //Fragment заменяет корневой элемент для Компонента
             <React.Fragment>
                 <h3>Car name: {this.props.name}</h3>
                 <p>YEAR: {this.props.year}</p>
@@ -36,4 +38,12 @@ class Car extends React.Component {
     }
 }
 
+// Определяем новое свойство, за которым будет следить React.
+// Возможна только в класс баейсд компонентах
+Car.propTypes = {
+    name: PropTypes.string,
+    year: PropTypes.number,
+    onChangName: PropTypes.func,
+    onDelete: PropTypes.func,
+};
 export default withClass(Car, classes.Car);

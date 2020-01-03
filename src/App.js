@@ -6,9 +6,9 @@ import Counter from './Counter/Counter';
 class App extends React.Component {
     state = {
         cars: [
-            { name: 'Ford', year: '2018'},
-            // { name: 'Audi', year: '2010'},
-            // { name: 'Mazda', year: '2015'},
+            { name: 'Ford', year: 2018},
+            { name: 'Audi', year: 2010},
+            { name: 'Mazda', year: 2015},
         ],
         pageTitle: 'React component',
         showCars: false,
@@ -35,7 +35,7 @@ class App extends React.Component {
     };
 
     deleteHandler(index) {
-        console.log('delete')
+        console.log('delete');
         const cars = this.state.cars.concat();
         cars.splice(index, 1);
         this.setState({
