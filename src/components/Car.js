@@ -4,7 +4,19 @@ import classes from './Car.css';
 import withClass from '../hoc/withClass';
 
 class Car extends React.Component {
+    constructor(props) {
+        super(props);
+        // В ручную сохжаем референцию и кладем в переменную
+        // локальные референции нужны для определенных, специфических моментов
+        this.inputRef = React.createRef()
+    }
 
+    componentDidMount() {
+        if(this.props.index === 1){
+            this.inputRef.current.focus();
+        }
+
+    }
 
     render() {
         const inputClasses = ['input'];
@@ -27,6 +39,7 @@ class Car extends React.Component {
                 <h3>Car name: {this.props.name}</h3>
                 <p>YEAR: {this.props.year}</p>
                 <input
+                    ref={this.inputRef}
                     type="text"
                     onChange={this.props.onChangeName}
                     value={this.props.name}
@@ -43,6 +56,7 @@ class Car extends React.Component {
 Car.propTypes = {
     name: PropTypes.string,
     year: PropTypes.number,
+    index: PropTypes.number,
     onChangName: PropTypes.func,
     onDelete: PropTypes.func,
 };
