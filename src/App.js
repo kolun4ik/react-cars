@@ -3,8 +3,11 @@ import Car from './components/Car';
 import ErrorBoundary from './ErrorBoundary/ErrorBoundary'
 import Counter from './Counter/Counter';
 
+export const ClickedContext = React.createContext(false);
+
 class App extends React.Component {
     state = {
+        clicked: false,
         cars: [
             { name: 'Ford', year: 2018},
             { name: 'Audi', year: 2010},
@@ -79,7 +82,11 @@ class App extends React.Component {
         <div style={divStyle}>
             {/*<h1>{this.state.pageTitle}</h1>*/}
             <h1>{this.props.title}</h1>
-            <Counter />
+            <ClickedContext.Provider
+                value={this.state.clicked}>
+                <Counter />
+            </ClickedContext.Provider>
+
             <hr />
             {/*bind -первый параметр тот контекст, с которым должна быть вызвана ф-ция,
             в нашем случае это this. bind будет возвращать новую ф-цию, но не вызывать ee.
@@ -88,6 +95,11 @@ class App extends React.Component {
                 style={{marginTop: '20px'}}
                 onClick={this.toggleCarHandler}>
                 Toggle Cars</button>
+
+            <button onClick={() => this.setState({
+                clicked: true,
+            })}>Change clicked</button>
+
             {/*Выводим список всех машин, где car - каждый из объектов списка*/}
             <div style={{
                 width: 400,
